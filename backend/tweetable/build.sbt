@@ -15,7 +15,8 @@ lazy val commonSettings = Seq(
 
 lazy val dddUtil = (project in file("ddd-util"))
   .settings(
-    name := "tweetable-ddd"
+    name := "tweetable-ddd",
+    commonSettings,
   )
 
 lazy val tweetableEntities = (project in file("tweetable-entities"))

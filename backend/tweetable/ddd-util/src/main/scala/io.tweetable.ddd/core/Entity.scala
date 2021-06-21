@@ -9,7 +9,7 @@ trait Entity {
 
   val id: ID
 
-  //  def sameIdentityAs(that: Entity): Boolean = {
-  //    this.getClass == that.getClass && this.id == that.id
-  //  }
+  def sameIdentityAs(that: Entity): Boolean = {
+    this.getClass == that.getClass && this.id == that.id
+  }
 }
