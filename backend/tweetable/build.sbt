@@ -1,15 +1,22 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "2.13.5"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
+ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / organization := "com.example"
 ThisBuild / organizationName := "example"
 
 lazy val commonSettings = Seq(
-  target := { baseDirectory.value / "target" },
+  target := {
+    baseDirectory.value / "target"
+  },
+  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-core" % "2.3.0",
-    "org.typelevel" %% "cats-effect" % "3.1.1"
+    "org.typelevel" %% "cats-effect" % "2.3.0",
+
+    "org.tpolecat" %% "doobie-core" % "0.12.1",
+    "org.tpolecat" %% "doobie-hikari" % "0.12.1",
+    "org.tpolecat" %% "doobie-postgres" % "0.12.1",
   )
 )
 
