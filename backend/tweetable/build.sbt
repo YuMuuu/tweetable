@@ -30,8 +30,34 @@ lazy val tweetableEntities = (project in file("tweetable-entities"))
   .settings(
     name := "tweetable-entities",
     commonSettings,
+    libraryDependencies ++= Seq(
+      "eu.timepit" %% "refined"                 % "0.9.26",
+      "eu.timepit" %% "refined-cats"            % "0.9.26", // optional
+    )
   )
   .dependsOn(dddUtil)
+
+lazy val tweetableUseCase = (project in file("tweetable-usecases"))
+  .settings(
+    name := "tweetable-usecases",
+    commonSettings,
+  )
+  .dependsOn(dddUtil, tweetableEntities)
+
+lazy val tweetableInterface = (project in file("tweetable-interface"))
+  .settings(
+    name := "tweetable-interface",
+    commonSettings,
+  )
+  .dependsOn(dddUtil, tweetableUseCase)
+
+
+lazy val tweetableDriver = (project in file("tweetable-driver"))
+  .settings(
+    name := "tweetable-driver",
+    commonSettings,
+  )
+  .dependsOn(dddUtil, tweetableInterface)
 
 
 
