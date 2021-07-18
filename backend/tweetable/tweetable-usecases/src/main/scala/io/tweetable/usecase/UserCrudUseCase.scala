@@ -18,7 +18,7 @@ trait UserCrudUseCase extends Aggregate[User] {
 }
 
 
-class UserCrudUseCaseImpl(userRepository: UserRepository[ConnectionIO, User],
+class UserCrudUseCaseImpl(userRepository: UserRepository[ConnectionIO],
                           transactor: Resource[IO, Transactor[ConnectionIO, IO]])
                          (implicit ev1: Bracket[ConnectionIO, Throwable],
                           ev2: Transactable[ConnectionIO])

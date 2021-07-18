@@ -9,7 +9,7 @@ lazy val commonSettings = Seq(
   target := {
     baseDirectory.value / "target"
   },
-  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full),
+  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.0" cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-core" % "2.3.0",
     "org.typelevel" %% "cats-effect" % "2.3.0",

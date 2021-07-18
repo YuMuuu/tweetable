@@ -15,7 +15,7 @@ trait Transactable[M[_]] {
 }
 
 object Transactable {
-  def apply[M[?]](implicit ev: Transactable[M[?]]): Transactable[M[?]] = implicitly[Transactable[M[?]]]
+  def apply[M[_]](implicit ev: Transactable[M[*]]): Transactable[M[*]] = implicitly[Transactable[M[*]]]
 }
 
 //命名微妙

@@ -8,7 +8,7 @@ import io.tweetable.repository.UserRepository
 
 
 //実装の方でAREを設定するのは変な感じ
-class UserRepositoryImpl extends UserRepository[ConnectionIO, User] {
+class UserRepositoryImpl extends UserRepository[ConnectionIO] {
   override def findByTweetId(id: TweetId): ConnectionIO[Option[User]] = ???
   override def findById(id: UserId): ConnectionIO[Option[User]] = ???
   override def store(entity: User): ConnectionIO[Unit] = ???

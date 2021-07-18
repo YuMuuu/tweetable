@@ -4,12 +4,9 @@ import cats.effect.{Bracket, IO, Resource}
 import doobie.ConnectionIO
 import io.tweetable.ddd.core.Aggregate
 import io.tweetable.ddd.core.typeclass.{Transactable, Transactor}
-import io.tweetable.entities.entity.{Tweet, User}
+import io.tweetable.entities.entity.Tweet
 import io.tweetable.entities.entity.Tweet.TweetId
-import io.tweetable.entities.entity.User.UserId
-import io.tweetable.repository.{TweetRepository, UserRepository}
-
-import java.sql.Connection
+import io.tweetable.repository.TweetRepository
 
 
 trait TweetCrudUseCase extends Aggregate[Tweet] {
@@ -22,7 +19,7 @@ trait TweetCrudUseCase extends Aggregate[Tweet] {
   def delete(tweetId: TweetId): IO[Unit]
 }
 
-class TweetCrudUseCaseImpl(tweetRepository: TweetRepository[ConnectionIO, Tweet],
+class TweetCrudUseCaseImpl(tweetRepository: TweetRepository[ConnectionIO],
                            transactor: Resource[IO, Transactor[ConnectionIO, IO]])
                           (implicit ev1: Bracket[ConnectionIO, Throwable],
                            ev2: Transactable[ConnectionIO]) extends TweetCrudUseCase {
