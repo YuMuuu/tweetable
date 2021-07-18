@@ -1,22 +1,24 @@
 import Dependencies._
 
-ThisBuild / scalaVersion := "2.13.5"
+//ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / scalaVersion := "3.0.0"
 ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / organization := "com.example"
 ThisBuild / organizationName := "example"
+ThisBuild / scalacOptions ++= Seq()
 
 lazy val commonSettings = Seq(
   target := {
     baseDirectory.value / "target"
   },
-  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.0" cross CrossVersion.full),
+//  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.0" cross CrossVersion.full),
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-core" % "2.3.0",
-    "org.typelevel" %% "cats-effect" % "2.3.0",
+    "org.typelevel" %% "cats-core" % "2.6.1",
+    "org.typelevel" %% "cats-effect" % "3.1.1",
 
-    "org.tpolecat" %% "doobie-core" % "0.12.1",
-    "org.tpolecat" %% "doobie-hikari" % "0.12.1",
-    "org.tpolecat" %% "doobie-postgres" % "0.12.1",
+    "org.tpolecat" %% "doobie-core" % "1.0.0-M5",
+//    "org.tpolecat" %% "doobie-hikari" % "1.0.0-M5",
+//    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5",
   )
 )
 
@@ -31,8 +33,7 @@ lazy val tweetableEntities = (project in file("tweetable-entities"))
     name := "tweetable-entities",
     commonSettings,
     libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined"                 % "0.9.26",
-      "eu.timepit" %% "refined-cats"            % "0.9.26", // optional
+      "eu.timepit" %% "refined" % "0.9.26",
     )
   )
   .dependsOn(dddUtil)

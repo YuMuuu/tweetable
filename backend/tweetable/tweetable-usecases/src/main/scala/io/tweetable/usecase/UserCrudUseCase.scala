@@ -1,8 +1,10 @@
 package io.tweetable.usecase
 
-import cats.effect.{Bracket, IO, Resource}
+import cats.effect.kernel.MonadCancel
+import cats.effect.{IO, Resource}
 import cats.free.Free
 import doobie.ConnectionIO
+import doobie.syntax.ConnectionIOOps
 import doobie.free.connection
 import io.tweetable.ddd.core.Aggregate
 import io.tweetable.ddd.core.typeclass.{Transactable, Transactor}
@@ -20,7 +22,7 @@ trait UserCrudUseCase extends Aggregate[User] {
 
 class UserCrudUseCaseImpl(userRepository: UserRepository[ConnectionIO],
                           transactor: Resource[IO, Transactor[ConnectionIO, IO]])
-                         (implicit ev1: Bracket[ConnectionIO, Throwable],
+                         (implicit ev1: MonadCancel[ConnectionIO, Throwable],
                           ev2: Transactable[ConnectionIO])
   extends  UserCrudUseCase {
   override def create(user: User): IO[Unit] = {
