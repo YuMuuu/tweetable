@@ -5,5 +5,5 @@ import io.tweetable.ddd.core.Repository
 import io.tweetable.entities.entity.Tweet
 
 
-abstract class TweetRepository[F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L] extends Repository[F, Tweet] {
+abstract class TweetRepository[F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L](using val tweet: Tweet) extends Repository[F, Tweet] {
 }

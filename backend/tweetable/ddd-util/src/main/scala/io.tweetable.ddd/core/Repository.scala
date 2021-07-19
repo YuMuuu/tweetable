@@ -9,8 +9,8 @@ import scala.concurrent.ExecutionContext
  * Repositoryを表す抽象
  */
 
-abstract class Repository[F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L , AE <: AggregateRootEntity] {
-  type ID = AE#ID
+abstract class Repository[F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L , AE <: AggregateRootEntity](using val ae: AE) {
+  type ID = ae.ID
 
   def findById(id: ID): F[Option[AE]]
 
@@ -19,11 +19,3 @@ abstract class Repository[F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L ,
   def delete(id: ID): F[Unit]
 }
 
-
-//class Rep(str: String)(using ec: ExecutionContext) {
-//  val a = 42
-//}
-
-class Rep2(str: String) {
-  val a = 42
-}

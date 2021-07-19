@@ -17,10 +17,13 @@ trait Transactable[M[_]] {
 
 
 object Transactable {
-//  def apply[M[_]](implicit ev: Transactable[M[*]]): Transactable[M[*]] = implicitly[Transactable[M[*]]]
-    def apply[M[_]](using ev: Transactable[({type R[F[_]] = M[F]})#R]): ({type R[F[_]] = Transactable[M[F]]})#R =
-    implicitly[({type R[F[_]] = Transactable[M[F]]})#R]
-//    def apply[M[_]](implicit ev: ({type L[F[_]] = Transactable[M[F]]})#L): ({type L[F[_]] = Transactable[M[F]]})#L = implicitly[({type L[F[_]] = Transactable[M[F]]})#L]
+  // scala 2.13
+  //  def apply[M[_]](implicit ev: Transactable[M[*]]): Transactable[M[*]] = implicitly[Transactable[M[*]]]
+
+  // dotty
+//    def apply[M[_]](using ev: Transactable[({type L[F[_]] = M[F]})#L]): Transactable[({type R[F[_]] = M[F]})#R] =
+//    implicitly[Transactable[({type R[F[_]] = M[F]})#R]]
+  def apply[F[_]](implicit ev: Transactable[F]): Transactable[F] = implicitly[Transactable[F]]
 }
 
 //命名微妙
@@ -31,6 +34,19 @@ object Transactable {
 //  }
 //
 //}
+
+//[error] -- Error: ******/Transactor.scala:24:62
+//[error] 24 |    def apply[M[_]](using ev: Transactable[({type L[F[_]] = M[F]})#L]): Transactable[({type R[F[_]] = M[F]})#R] =
+//[error]    |                                                              ^
+//[error]    |               Type argument F does not have the same kind as its bound
+//[error] -- Error: ******/Transactor.scala:24:104
+//[error] 24 |    def apply[M[_]](using ev: Transactable[({type L[F[_]] = M[F]})#L]): Transactable[({type R[F[_]] = M[F]})#R] =
+//[error]    |                                                                                                        ^
+//[error]    |               Type argument F does not have the same kind as its bound
+//[error] -- Error: ******/Transactor.scala:25:47
+//[error] 25 |    implicitly[Transactable[({type R[F[_]] = M[F]})#R]]
+//[error]    |                                               ^
+//[error]    |               Type argument F does not have the same kind as its bound
 
 class DoobieTransactor[N[_]](underlying: doobie.util.transactor.Transactor[N]) extends Transactor[doobie.ConnectionIO, N] {
   override def trans(implicit ev: MonadCancel[N, Throwable]): doobie.ConnectionIO ~> N = underlying.trans
