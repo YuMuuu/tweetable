@@ -10,7 +10,7 @@ import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 
 
-trait TweetCrudUseCase extends Aggregate[Tweet] {
+trait TweetCrudUseCase extends Aggregate[TweetId, Tweet] {
   def create(tweet: Tweet): IO[Unit]
 
   def findById(tweetId: TweetId): IO[Option[Tweet]]

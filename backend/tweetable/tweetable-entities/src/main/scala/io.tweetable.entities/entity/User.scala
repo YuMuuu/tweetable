@@ -9,8 +9,8 @@ object User {
 }
 
 
-case class User(id: UserId,
-                name: String,
-                followeeList: FolloweeList) extends AggregateRootEntity {
-  override type ID = UserId
-}
+case class User(
+    id: UserId,
+    name: String,
+    followeeList: FolloweeList
+) extends AggregateRootEntity[UserId]

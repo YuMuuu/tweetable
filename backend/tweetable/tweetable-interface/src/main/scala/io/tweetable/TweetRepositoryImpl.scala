@@ -10,7 +10,7 @@ import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 import scala.Conversion
 
-class TweetRepositoryImpl(using tweet: Tweet) extends TweetRepository[ConnectionIO]{
+class TweetRepositoryImpl extends TweetRepository[ConnectionIO]{
   override def findById(id: TweetId): ConnectionIO[Option[Tweet]] = {
     //db設計をしていないのでqueryは適当
     sql"select id, text, userId from tweet where id = ${id}".query[TweetRow].unique.map(_.toTweet())

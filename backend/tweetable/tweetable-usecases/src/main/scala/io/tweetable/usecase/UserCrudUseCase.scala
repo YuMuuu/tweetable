@@ -12,7 +12,7 @@ import io.tweetable.entities.entity.User
 import io.tweetable.entities.entity.User.UserId
 import io.tweetable.repository.UserRepository
 
-trait UserCrudUseCase extends Aggregate[User] {
+trait UserCrudUseCase extends Aggregate[UserId, User] {
   def create(user: User): IO[Unit]
   def findById(userId: UserId): IO[Option[User]]
   def update(user: User): IO[User]

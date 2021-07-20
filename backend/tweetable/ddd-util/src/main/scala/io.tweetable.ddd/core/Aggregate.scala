@@ -9,4 +9,4 @@ package io.tweetable.ddd.core
 // この形だとひとつの集約にひとつの集約ルートがあるということしかしめせていない
 // 集約の中にEntityなり値オブジェクトが含まれているということを表現できていない
 // 現状ではpackageを分けるぐらいしか方法はない？
-trait Aggregate[AR <: AggregateRootEntity]
+trait Aggregate[ID <: Identifier[_], AR <: AggregateRootEntity[ID]]
