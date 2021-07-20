@@ -1,4 +1,4 @@
-package io.tweetable.saple
+package io.tweetable
 
 import doobie.ConnectionIO
 import io.tweetable.entities.entity.Tweet.TweetId
