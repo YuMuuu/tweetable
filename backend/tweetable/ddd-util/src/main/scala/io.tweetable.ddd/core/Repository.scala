@@ -9,8 +9,11 @@ import scala.concurrent.ExecutionContext
  * Repositoryを表す抽象
  */
 
-abstract class Repository[F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L , AE <: AggregateRootEntity](using val ae: AE) {
-  type ID = ae.ID
+abstract class Repository[
+  F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L, 
+  ID <: Identifier[_],
+  AE <: AggregateRootEntity[ID]
+]{
 
   def findById(id: ID): F[Option[AE]]
 

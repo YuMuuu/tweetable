@@ -1,15 +1,13 @@
 package io.tweetable.entities.entity
 
-import io.tweetable.ddd.core.{Aggregate, Entity, LongId}
+import io.tweetable.ddd.core.{Entity, LongId}
 import io.tweetable.entities.entity.User.UserId
 
 //更新、取得
 case class FolloweeList(
     id: UserId, //idがidというfiled名に限定されるのは微妙かも？
     followeeList: List[UserId]
-) extends Entity {
-  override type ID = UserId
-}
+) extends Entity[UserId]
 
 //取得のみ
 //query側で利用する？
@@ -22,4 +20,5 @@ case class FollowerList(
 // userId int,
 // follow_userId int
 //);
+
 
