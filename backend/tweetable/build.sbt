@@ -1,7 +1,7 @@
 import Dependencies._
 
 //ThisBuild / scalaVersion := "2.13.5"
-ThisBuild / scalaVersion := "3.0.0"
+ThisBuild / scalaVersion := "3.0.1"
 ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / organization := "com.example"
 ThisBuild / organizationName := "example"
@@ -17,8 +17,8 @@ lazy val commonSettings = Seq(
     "org.typelevel" %% "cats-effect" % "3.1.1",
 
     "org.tpolecat" %% "doobie-core" % "1.0.0-M5",
-//    "org.tpolecat" %% "doobie-hikari" % "1.0.0-M5",
-//    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5",
+    "org.tpolecat" %% "doobie-hikari" % "1.0.0-M5",
+    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5",
   )
 )
 
