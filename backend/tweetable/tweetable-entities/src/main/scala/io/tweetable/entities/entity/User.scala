@@ -1,13 +1,13 @@
 package io.tweetable.entities.entity
 
-import io.tweetable.ddd.core.{AggregateRootEntity, LongId}
+import io.tweetable.ddd.core.{AggregateRootEntity, LongId, AggregateRootCheck}
 import io.tweetable.entities.entity.User.UserId
 
-
-object User {
+object User:
   type UserId = LongId
-}
 
+  //静的assersion的な
+  private[this] val ev = summon[AggregateRootCheck[User]]
 
 case class User(
     id: UserId,

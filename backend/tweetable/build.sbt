@@ -15,17 +15,16 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-core" % "2.6.1",
     "org.typelevel" %% "cats-effect" % "3.1.1",
-
     "org.tpolecat" %% "doobie-core" % "1.0.0-M5",
     "org.tpolecat" %% "doobie-hikari" % "1.0.0-M5",
-    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5",
+    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5"
   )
 )
 
 lazy val dddUtil = (project in file("ddd-util"))
   .settings(
     name := "tweetable-ddd",
-    commonSettings,
+    commonSettings
   )
 
 lazy val tweetableEntities = (project in file("tweetable-entities"))
@@ -33,7 +32,7 @@ lazy val tweetableEntities = (project in file("tweetable-entities"))
     name := "tweetable-entities",
     commonSettings,
     libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined" % "0.9.26",
+      "eu.timepit" %% "refined" % "0.9.26"
     )
   )
   .dependsOn(dddUtil)
@@ -41,28 +40,23 @@ lazy val tweetableEntities = (project in file("tweetable-entities"))
 lazy val tweetableUseCase = (project in file("tweetable-usecases"))
   .settings(
     name := "tweetable-usecases",
-    commonSettings,
+    commonSettings
   )
   .dependsOn(dddUtil, tweetableEntities)
 
 lazy val tweetableInterface = (project in file("tweetable-interface"))
   .settings(
     name := "tweetable-interface",
-    commonSettings,
+    commonSettings
   )
   .dependsOn(dddUtil, tweetableUseCase)
-
 
 lazy val tweetableDriver = (project in file("tweetable-driver"))
   .settings(
     name := "tweetable-driver",
-    commonSettings,
+    commonSettings
   )
   .dependsOn(dddUtil, tweetableInterface)
-
-
-
-
 
 //todo:  そのうち必要になりそうなlibrary 後で整理する
 
@@ -92,4 +86,3 @@ lazy val tweetableDriver = (project in file("tweetable-driver"))
 //
 //libraryDependencies += "io.github.kirill5k" %% "mongo4cats-core" % "0.2.9"
 //libraryDependencies += "io.github.kirill5k" %% "mongo4cats-circe" % "0.2.9" // circe support
-

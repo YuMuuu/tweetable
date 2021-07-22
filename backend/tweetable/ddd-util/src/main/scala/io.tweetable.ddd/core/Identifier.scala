@@ -1,7 +1,4 @@
 package io.tweetable.ddd.core
 
-trait Identifier[A] {
+trait Identifier[A]:
   def value: A
-}
-
-
