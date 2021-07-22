@@ -58,6 +58,19 @@ lazy val tweetableDriver = (project in file("tweetable-driver"))
   )
   .dependsOn(dddUtil, tweetableInterface)
 
+lazy val evolutions = (project in file("evolutions"))
+  .settings(
+    name := "evolutions",
+    commonSettings,
+    libraryDependencies ++= Seq(
+      ("com.typesafe.play" %% "play-jdbc" % "2.8.8").cross(CrossVersion.for3Use2_13),
+      ("com.typesafe.play" %% "play-jdbc-evolutions" % "2.8.8").cross(CrossVersion.for3Use2_13),
+      "mysql" % "mysql-connector-java" % "8.0.26"
+    )
+  )
+  
+
+
 //todo:  そのうち必要になりそうなlibrary 後で整理する
 
 //libraryDependencies += "org.typelevel" %% "cats-core" % "2.3.0"
