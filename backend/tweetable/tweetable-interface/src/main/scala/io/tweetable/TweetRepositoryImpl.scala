@@ -8,6 +8,7 @@ import io.tweetable.entities.domain.`type`.String140.String140
 import io.tweetable.entities.entity.Tweet
 import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
+import scala.Conversion
 
 class TweetRepositoryImpl extends TweetRepository[ConnectionIO]{
   override def findById(id: TweetId): ConnectionIO[Option[Tweet]] = {
@@ -26,7 +27,7 @@ object TweetRepositoryHelper {
     text: String,
     userId: Long
   ) {
-    implicit def toTweet(): Option[Tweet] = {
+    def toTweet(): Option[Tweet] = {
       import io.tweetable.entities.domain.`type`.String140.string140ForString
       val string140: Option[String140] = text
       string140.map(s => {
@@ -39,11 +40,13 @@ object TweetRepositoryHelper {
     }
   }
 
-  implicit def toTweetRow(tweet: Tweet): TweetRow = {
-    TweetRow(
-      tweet.id.value,
-      tweet.text.value,
-      tweet.userId.value
-    )
-  }
+
+  given Conversion[Tweet, TweetRow] with
+    def apply(tweet: Tweet): TweetRow = {
+          TweetRow(
+            tweet.id.value,
+            tweet.text.value,
+            tweet.userId.value
+          )
+    }
 }

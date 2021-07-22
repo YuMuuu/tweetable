@@ -1,6 +1,7 @@
 package io.tweetable.usecase
 
-import cats.effect.{Bracket, IO, Resource}
+import cats.effect.kernel.MonadCancel
+import cats.effect.{IO, Resource}
 import doobie.ConnectionIO
 import io.tweetable.ddd.core.Aggregate
 import io.tweetable.ddd.core.typeclass.{Transactable, Transactor}
@@ -9,7 +10,7 @@ import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 
 
-trait TweetCrudUseCase extends Aggregate[Tweet] {
+trait TweetCrudUseCase extends Aggregate[TweetId, Tweet] {
   def create(tweet: Tweet): IO[Unit]
 
   def findById(tweetId: TweetId): IO[Option[Tweet]]
@@ -21,7 +22,7 @@ trait TweetCrudUseCase extends Aggregate[Tweet] {
 
 class TweetCrudUseCaseImpl(tweetRepository: TweetRepository[ConnectionIO],
                            transactor: Resource[IO, Transactor[ConnectionIO, IO]])
-                          (implicit ev1: Bracket[ConnectionIO, Throwable],
+                          (implicit ev1: MonadCancel[ConnectionIO, Throwable],
                            ev2: Transactable[ConnectionIO]) extends TweetCrudUseCase {
   override def create(tweet: Tweet): IO[Unit] = {
     val cio = for {

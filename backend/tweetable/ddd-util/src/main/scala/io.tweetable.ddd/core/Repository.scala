@@ -1,16 +1,24 @@
 package io.tweetable.ddd.core
 
-import cats.effect.Bracket
+import cats.effect.kernel.MonadCancel
+
+import scala.concurrent.ExecutionContext
 
 
 /**
  * Repositoryを表す抽象
  */
-abstract class Repository[F[_]: Bracket[*[_], Throwable] , AE <: AggregateRootEntity] {
 
-  def findById(id: AE#ID): F[Option[AE]]
+abstract class Repository[
+  F[_]: ({type L[F[_]] = MonadCancel[F, Throwable]})#L, 
+  ID <: Identifier[_],
+  AE <: AggregateRootEntity[ID]
+]{
+
+  def findById(id: ID): F[Option[AE]]
 
   def store(entity: AE): F[Unit]
 
-  def delete(id: AE#ID): F[Unit]
+  def delete(id: ID): F[Unit]
 }
+
