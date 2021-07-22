@@ -10,44 +10,41 @@ import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 import scala.Conversion
 
-class TweetRepositoryImpl extends TweetRepository[ConnectionIO]{
-  override def findById(id: TweetId): ConnectionIO[Option[Tweet]] = {
+class TweetRepositoryImpl extends TweetRepository[ConnectionIO]:
+  override def findById(id: TweetId): ConnectionIO[Option[Tweet]] =
     //db設計をしていないのでqueryは適当
-    sql"select id, text, userId from tweet where id = ${id}".query[TweetRow].unique.map(_.toTweet())
-  }
+    sql"select id, text, userId from tweet where id = ${id}"
+      .query[TweetRow]
+      .unique
+      .map(_.toTweet())
 
   override def store(entity: Tweet): ConnectionIO[Unit] = ???
 
   override def delete(id: TweetId): ConnectionIO[Unit] = ???
-}
 
-object TweetRepositoryHelper {
+object TweetRepositoryHelper:
   case class TweetRow(
-    id: Long,
-    text: String,
-    userId: Long
-  ) {
-    def toTweet(): Option[Tweet] = {
+      id: Long,
+      text: String,
+      userId: Long
+  ):
+    def toTweet(): Option[Tweet] =
+      import scala.language.implicitConversions
       import io.tweetable.entities.domain.`type`.String140.given_Conversion_String_Option
-      // import io.tweetable.entities.domain.`type`.String140._ memo: アンスコimportができない
+      // import io.tweetable.entities.domain.`type`.String140._ memo: //アンスコimportができない
       val string140: Option[String140] = text
-      string140.map(s => {
+      string140.map(s =>
         Tweet(
           id = LongId(id),
           text = s,
           userId = LongId(userId)
         )
-      })
-    }
-  }
-
+      )
 
   given Conversion[Tweet, TweetRow] with
-    def apply(tweet: Tweet): TweetRow = {
-          TweetRow(
-            tweet.id.value,
-            tweet.text.value,
-            tweet.userId.value
-          )
-    }
-}
+    def apply(tweet: Tweet): TweetRow =
+      TweetRow(
+        tweet.id.value,
+        tweet.text.value,
+        tweet.userId.value
+      )

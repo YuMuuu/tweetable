@@ -10,11 +10,8 @@ type UserId = LongId などと type alias を作成して利用する
     val notAssignedUserId: UserId = IntId.notAssigned
  */
 
-case class LongId(value: Long) extends Identifier[Long] {
+case class LongId(value: Long) extends Identifier[Long]:
   def isAssigned: Boolean = value.!=(-1L)
-}
 
-object LongId {
+object LongId:
   def notAssigned: LongId = LongId(-1L)
-}
-
