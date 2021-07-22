@@ -28,7 +28,8 @@ object TweetRepositoryHelper {
     userId: Long
   ) {
     def toTweet(): Option[Tweet] = {
-      import io.tweetable.entities.domain.`type`.String140.string140ForString
+      import io.tweetable.entities.domain.`type`.String140.given_Conversion_String_Option
+      // import io.tweetable.entities.domain.`type`.String140._ memo: アンスコimportができない
       val string140: Option[String140] = text
       string140.map(s => {
         Tweet(

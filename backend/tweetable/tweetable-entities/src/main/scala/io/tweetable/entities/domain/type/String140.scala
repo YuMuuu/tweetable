@@ -8,9 +8,11 @@ object String140 {
   type String140 = String Refined MaxSize[140]
 
 
-  implicit def stringForString140(string140: String140): String = string140.toString
+  given Conversion[String140, String] with
+    def apply(string140: String140): String = string140.toString
 
   //refineVの型引数の指定方法が微妙
-  implicit def string140ForString(string: String): Option[String140] = refineV[MaxSize[140]](string).toOption
+  given Conversion[String, Option[String140]] with 
+    def apply(string: String): Option[String140] = refineV[MaxSize[140]](string).toOption
 
 }
