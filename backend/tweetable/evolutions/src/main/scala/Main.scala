@@ -5,7 +5,7 @@ import play.api.db.Databases
 import play.api.db.evolutions.Evolutions
 import com.typesafe.config.ConfigFactory
 
-object Main extends App {
+object Main extends App:
 
   val conf = ConfigFactory.load().getConfig("db.default")
   // println(conf)
@@ -23,5 +23,4 @@ object Main extends App {
   val database: Database = Databases(driver, url, name = "default", config = map)
   Evolutions.applyEvolutions(database)
 
-  println("ok")
-}
+  println("🆗")
