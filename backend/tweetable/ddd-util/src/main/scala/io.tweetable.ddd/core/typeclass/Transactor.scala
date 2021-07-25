@@ -11,8 +11,8 @@ trait Transactor[M[_], N[_]]:
   def trans(using ev: MonadCancel[N, Throwable]): M ~> N
 
 trait Transactable[M[_]]:
-  def transact[A](transactor: Transactor[M, IO])(m: M[A])(using
-      ev: MonadCancel[IO, Throwable]
+  def transact[A](transactor: Transactor[M, IO])(m: M[A])(
+      using ev: MonadCancel[IO, Throwable]
   ): IO[A]
 
 object Transactable:
@@ -30,6 +30,6 @@ object Transactable:
 
 class DoobieTransactor[N[_]](underlying: doobie.util.transactor.Transactor[N])
     extends Transactor[doobie.ConnectionIO, N]:
-  override def trans(implicit
-      ev: MonadCancel[N, Throwable]
+  override def trans(
+      implicit ev: MonadCancel[N, Throwable]
   ): doobie.ConnectionIO ~> N = underlying.trans
