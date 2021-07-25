@@ -12,9 +12,6 @@ abstract class Repository[
     ID <: Identifier[?],
     AE <: AggregateRootEntity[ID]
 ]:
-
   def findById(id: ID): F[Option[AE]]
-
   def store(entity: AE): F[Unit]
-
   def delete(id: ID): F[Unit]

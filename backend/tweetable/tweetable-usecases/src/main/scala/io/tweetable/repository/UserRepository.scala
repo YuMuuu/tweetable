@@ -10,5 +10,4 @@ abstract class UserRepository[
     F[_]: ({ type L[F[_]] = MonadCancel[F, Throwable] })#L
 ] extends Repository[F, UserId, User]:
   def findByTweetId(id: TweetId): F[Option[User]]
-
   def update(user: User): F[User]
