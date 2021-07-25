@@ -16,12 +16,6 @@ trait Transactable[M[_]]:
   ): IO[A]
 
 object Transactable:
-  // scala 2.13
-  //  def apply[M[_]](implicit ev: Transactable[M[*]]): Transactable[M[*]] = implicitly[Transactable[M[*]]]
-
-  // dotty
-//    def apply[M[_]](using ev: Transactable[({type L[F[_]] = M[F]})#L]): Transactable[({type R[F[_]] = M[F]})#R] =
-//    implicitly[Transactable[({type R[F[_]] = M[F]})#R]]
   def apply[F[_]](implicit ev: Transactable[F]): Transactable[F] =
     implicitly[Transactable[F]]
 
@@ -33,19 +27,6 @@ object Transactable:
 //  }
 //
 //}
-
-//[error] -- Error: ******/Transactor.scala:24:62
-//[error] 24 |    def apply[M[_]](using ev: Transactable[({type L[F[_]] = M[F]})#L]): Transactable[({type R[F[_]] = M[F]})#R] =
-//[error]    |                                                              ^
-//[error]    |               Type argument F does not have the same kind as its bound
-//[error] -- Error: ******/Transactor.scala:24:104
-//[error] 24 |    def apply[M[_]](using ev: Transactable[({type L[F[_]] = M[F]})#L]): Transactable[({type R[F[_]] = M[F]})#R] =
-//[error]    |                                                                                                        ^
-//[error]    |               Type argument F does not have the same kind as its bound
-//[error] -- Error: ******/Transactor.scala:25:47
-//[error] 25 |    implicitly[Transactable[({type R[F[_]] = M[F]})#R]]
-//[error]    |                                               ^
-//[error]    |               Type argument F does not have the same kind as its bound
 
 class DoobieTransactor[N[_]](underlying: doobie.util.transactor.Transactor[N])
     extends Transactor[doobie.ConnectionIO, N]:
