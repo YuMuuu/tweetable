@@ -21,8 +21,8 @@ trait UserCrudUseCase extends Aggregate[UserId, User]:
 class UserCrudUseCaseImpl(
     userRepository: UserRepository[ConnectionIO],
     transactor: Resource[IO, Transactor[ConnectionIO, IO]]
-)(implicit
-    ev1: MonadCancel[ConnectionIO, Throwable],
+)(
+    implicit ev1: MonadCancel[ConnectionIO, Throwable],
     ev2: Transactable[ConnectionIO]
 ) extends UserCrudUseCase:
   override def create(user: User): IO[Unit] =

@@ -21,8 +21,8 @@ trait TweetCrudUseCase extends Aggregate[TweetId, Tweet]:
 class TweetCrudUseCaseImpl(
     tweetRepository: TweetRepository[ConnectionIO],
     transactor: Resource[IO, Transactor[ConnectionIO, IO]]
-)(implicit
-    ev1: MonadCancel[ConnectionIO, Throwable],
+)(
+    implicit ev1: MonadCancel[ConnectionIO, Throwable],
     ev2: Transactable[ConnectionIO]
 ) extends TweetCrudUseCase:
   override def create(tweet: Tweet): IO[Unit] =
