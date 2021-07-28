@@ -7,7 +7,7 @@ import io.tweetable.entities.entity.User
 import io.tweetable.entities.entity.User.UserId
 
 abstract class UserRepository[
-    F[_]: ({ type L[F[_]] = MonadCancel[F, Throwable] })#L
+    F[_]: [F[_]] =>> MonadCancel[F, Throwable]
 ] extends Repository[F, UserId, User]:
   def findByTweetId(id: TweetId): F[Option[User]]
   def update(user: User): F[User]

@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext
   */
 
 abstract class Repository[
-    F[_]: ({ type L[F[_]] = MonadCancel[F, Throwable] })#L,
+    F[_]: [F[_]] =>> MonadCancel[F, Throwable],
     ID <: Identifier[?],
     AE <: AggregateRootEntity[ID]
 ]:
