@@ -6,5 +6,5 @@ import io.tweetable.entities.entity.Tweet
 import io.tweetable.entities.entity.Tweet.TweetId
 
 abstract class TweetRepository[
-    F[_]: ({ type L[F[_]] = MonadCancel[F, Throwable] })#L
+    F[_]: [F[_]] =>> MonadCancel[F, Throwable]
 ] extends Repository[F, TweetId, Tweet]
