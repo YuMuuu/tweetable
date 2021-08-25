@@ -10,8 +10,8 @@ object Main extends App:
   val conf = ConfigFactory.load().getConfig("db.default")
   // println(conf)
 
-  val driver   = conf.getString("driver")
-  val url      = conf.getString("url")
+  val driver = conf.getString("driver")
+  val url = conf.getString("url")
   val username = conf.getString("username")
   val password = conf.getString("password")
 

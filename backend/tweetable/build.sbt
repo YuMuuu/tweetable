@@ -68,8 +68,6 @@ lazy val evolutions = (project in file("evolutions"))
       "mysql" % "mysql-connector-java" % "8.0.26"
     )
   )
-  
-
 
 //todo:  そのうち必要になりそうなlibrary 後で整理する
 
