@@ -1,0 +1,41 @@
+name: Continuous Integration
+
+on:
+  push:
+
+jobs:
+  set-up:
+    name: Build and Format
+    strategy:
+      matrix:
+        java:
+          - adopt@1.15.0-1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java and Scala
+        uses: olafurpg/setup-scala@v10
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Cache sbt
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.sbt
+            ~/.ivy2/cache
+            ~/.coursier/cache/v1
+            ~/.cache/coursier/v1
+            ~/AppData/Local/Coursier/Cache/v1
+            ~/Library/Caches/Coursier/v1
+          key: v1-${{ hashFiles('~/backend/tweetable/build.sbt') }}-${{ hashFiles('~/backend/tweetableproject/build.properties') }}
+      - name: build
+        run: |
+            cd ./backend/tweetable 
+            sbt compile
+      - name: fmt
+        run: |
+            cd ./backend/tweetable
+            sbt scalafmtCheck test:scalafmtCheck
