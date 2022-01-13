@@ -5,12 +5,12 @@ import doobie.implicits.toSqlInterpolator
 import io.tweetable.TweetRepositoryHelper.TweetRow
 import io.tweetable.ddd.core.LongId
 import io.tweetable.entities.domain.`type`.String140.String140
+import io.tweetable.entities.domain.`type`.TweetType.TweetType
 import io.tweetable.entities.entity
 import io.tweetable.entities.entity.Tweet
 import io.tweetable.entities.entity.Tweet.TweetId
-import io.tweetable.entities.entity.TweetType.TweetType
 import io.tweetable.repository.TweetRepository
-import scala.Conversion
+import scala.language.implicitConversions
 
 class TweetRepositoryImpl extends TweetRepository[ConnectionIO]:
   override def findById(id: TweetId): ConnectionIO[Option[Tweet]] =
@@ -36,8 +36,7 @@ object TweetRepositoryHelper:
     def toTweet(): Option[Tweet] =
       import scala.language.implicitConversions
       import io.tweetable.entities.domain.`type`.String140.given_Conversion_String_Option
-      import io.tweetable.entities.entity.TweetType.given_Conversion_String_Option
-      // import io.tweetable.entities.domain.`type`.String140._ memo: //アンスコimportができない
+      import io.tweetable.entities.domain.`type`.TweetType.given_Conversion_String_Option
 
       //memo: Conversionで暗黙の型変換をする時に変換後の型を明示しないとコンパイルできない
       val string140: Option[String140] = text
