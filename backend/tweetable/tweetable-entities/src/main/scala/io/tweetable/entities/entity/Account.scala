@@ -6,17 +6,17 @@ import io.tweetable.ddd.core.{
   Entity,
   LongId
 }
-import io.tweetable.entities.entity.Account.AccountId
+import io.tweetable.entities.entity.User.UserId
 
-object Account:
-  type AccountId = LongId
+object Account
 
 /** アカウント情報を示すEntity
   */
 //todo: email, passwardの型を明確にする
+//memo: パスワードは平文で保存する
 //memo: メアドとパスパードのみでのログインを想定
 case class Account(
-    id: AccountId,
+    id: UserId,
     email: String,
     passward: String
-) extends Entity[AccountId]
+) extends Entity[UserId]

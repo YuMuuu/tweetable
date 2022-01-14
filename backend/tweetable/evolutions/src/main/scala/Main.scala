@@ -5,10 +5,12 @@ import play.api.db.Databases
 import play.api.db.evolutions.Evolutions
 import com.typesafe.config.ConfigFactory
 
+/**
+ * database migration用のproject
+ * */
 object Main extends App:
 
   val conf = ConfigFactory.load().getConfig("db.default")
-  // println(conf)
 
   val driver = conf.getString("driver")
   val url = conf.getString("url")

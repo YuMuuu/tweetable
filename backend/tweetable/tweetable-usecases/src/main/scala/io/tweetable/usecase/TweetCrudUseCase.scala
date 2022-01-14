@@ -11,7 +11,7 @@ import io.tweetable.entities.entity.Tweet
 import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 import io.tweetable.repository.NotifyRepository
-import io.tweetable.entities.entity.Notify
+import io.tweetable.entities.entity.Notification
 import io.tweetable.entities.domain.`type`.TweetType.TweetType
 import doobie.free.Embedded.Connection
 
@@ -53,7 +53,7 @@ class TweetCrudUseCaseImpl(
                   tweet.reTweetTweetId
                 )
                 reTweet <- OptionT(tweetRepository.findById(reTweetId))
-                n = Notify.factoryReTweetedNotify(
+                n = Notification.factoryReTweetedNotify(
                   reTweet.userId,
                   reTweetId
                 )

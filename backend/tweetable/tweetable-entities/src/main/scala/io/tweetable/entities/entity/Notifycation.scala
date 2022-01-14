@@ -2,7 +2,7 @@ package io.tweetable.entities.entity
 
 import io.tweetable.ddd.core.LongId
 import io.tweetable.ddd.core.AggregateRootCheck
-import io.tweetable.entities.entity.Notify.NotifyId
+import io.tweetable.entities.entity.Notification.NotificationId
 import io.tweetable.ddd.core.AggregateRootEntity
 import io.tweetable.entities.entity.User.UserId
 import io.tweetable.entities.entity.Favorite.FavoriteId
@@ -11,14 +11,14 @@ import cats.syntax.option.*
 import scala.quoted.FromExpr.NoneFromExpr
 import io.tweetable.entities.domain.`type`.NotifyType.NotifyType
 
-object Notify:
-  type NotifyId = LongId
+object Notification:
+  type NotificationId = LongId
 
   //静的assersion的な
-  private[this] val ev = summon[AggregateRootCheck[Notify]]
+  private[this] val ev = summon[AggregateRootCheck[Notification]]
 
-  def factoryFollowedNotify(userId: UserId, followId: UserId): Notify =
-    Notify(
+  def factoryFollowedNotify(userId: UserId, followId: UserId): Notification =
+    Notification(
       id = LongId.notAssigned,
       userId = userId,
       notifyType = NotifyType.Followed,
@@ -27,8 +27,8 @@ object Notify:
       reTweetId = None
     )
 
-  def factoryFavoritedNotify(userId: UserId, favoriteId: FavoriteId): Notify =
-    Notify(
+  def factoryFavoritedNotify(userId: UserId, favoriteId: FavoriteId): Notification =
+    Notification(
       id = LongId.notAssigned,
       userId = userId,
       notifyType = NotifyType.Favorited,
@@ -37,8 +37,8 @@ object Notify:
       reTweetId = None
     )
 
-  def factoryReTweetedNotify(userId: UserId, reTweetId: TweetId): Notify =
-    Notify(
+  def factoryReTweetedNotify(userId: UserId, reTweetId: TweetId): Notification =
+    Notification(
       id = LongId.notAssigned,
       userId = userId,
       notifyType = NotifyType.ReTweeted,
@@ -47,12 +47,12 @@ object Notify:
       reTweetId = reTweetId.some
     )
 
-case class Notify(
-    id: NotifyId,
+case class Notification(
+    id: NotificationId,
     userId: UserId,
     notifyType: NotifyType,
     followId: Option[UserId],
     favoriteId: Option[FavoriteId],
     reTweetId: Option[TweetId]
-) extends AggregateRootEntity[NotifyId]
+) extends AggregateRootEntity[NotificationId]
 //memo: assertionを作る

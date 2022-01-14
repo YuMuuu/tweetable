@@ -3,6 +3,7 @@ package io.tweetable.entities.entity
 import io.tweetable.ddd.core.LongId
 import io.tweetable.entities.entity.Favorite.FavoriteId
 import io.tweetable.entities.entity.Tweet.TweetId
+import io.tweetable.entities.entity.User.UserId
 import io.tweetable.ddd.core.Entity
 
 object Favorite:
@@ -12,5 +13,6 @@ object Favorite:
   */
 case class Favorite(
     id: FavoriteId,
-    tweet: TweetId
+    userId: UserId,
+    tweetId: TweetId
 ) extends Entity[FavoriteId]
