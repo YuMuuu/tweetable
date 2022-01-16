@@ -27,7 +27,10 @@ object Notification:
       reTweetId = None
     )
 
-  def factoryFavoritedNotify(userId: UserId, favoriteId: FavoriteId): Notification =
+  def factoryFavoritedNotify(
+      userId: UserId,
+      favoriteId: FavoriteId
+  ): Notification =
     Notification(
       id = LongId.notAssigned,
       userId = userId,

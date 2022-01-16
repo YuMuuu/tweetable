@@ -48,7 +48,7 @@ class UserCrudUseCaseImpl(
   override def update(user: User): IO[User] =
     // ドメインサービスでupdate可能なuserEntityを作ったとする
     val cio =
-      for user <- userRepository.update(user)
+      for user <- userRepository.store(user)
       yield user
     for
       user <- transactor.use(xa => Transactable[ConnectionIO].transact(xa)(cio))

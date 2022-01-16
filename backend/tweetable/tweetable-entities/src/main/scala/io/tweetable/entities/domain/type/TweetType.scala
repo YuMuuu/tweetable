@@ -9,6 +9,10 @@ object TweetType:
     case NormalTweet
     case ReTweet
 
+    def value(): String = this match
+      case TweetType.NormalTweet => "tweet"
+      case TweetType.ReTweet     => "retweet"
+
   given Conversion[TweetType, String] = _ match
     case TweetType.NormalTweet => "tweet"
     case TweetType.ReTweet     => "retweet"

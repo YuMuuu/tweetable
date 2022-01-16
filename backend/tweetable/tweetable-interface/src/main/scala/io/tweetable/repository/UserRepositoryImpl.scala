@@ -10,6 +10,5 @@ import io.tweetable.repository.UserRepository
 class UserRepositoryImpl extends UserRepository[ConnectionIO]:
   override def findByTweetId(id: TweetId): ConnectionIO[Option[User]] = ???
   override def findById(id: UserId): ConnectionIO[Option[User]] = ???
-  override def store(entity: User): ConnectionIO[Unit] = ???
+  override def store(entity: User): ConnectionIO[User] = ???
   override def delete(id: UserId): ConnectionIO[Unit] = ???
-  override def update(user: User): ConnectionIO[User] = ???

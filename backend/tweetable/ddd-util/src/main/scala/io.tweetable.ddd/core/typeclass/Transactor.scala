@@ -24,13 +24,13 @@ class DoobieTransactor[N[_]](underlying: doobie.util.transactor.Transactor[N])
     extends Transactor[doobie.ConnectionIO, N]:
   override def trans(
       using ev: MonadCancel[N, Throwable]
-  ): doobie.ConnectionIO ~> N =  underlying.trans
+  ): doobie.ConnectionIO ~> N = underlying.trans
 
 class HikariTransactor[N[_]](underlying: doobie.hikari.HikariTransactor[N])
     extends Transactor[doobie.ConnectionIO, N]:
   override def trans(
       using ev: MonadCancel[N, Throwable]
-  ): doobie.ConnectionIO ~> N =  underlying.trans
+  ): doobie.ConnectionIO ~> N = underlying.trans
 
 object DoobieTransactable:
   // given doobieTansactable(
@@ -39,9 +39,7 @@ object DoobieTransactable:
   //   override def transact[A](transactor: Transactor[doobie.ConnectionIO, IO])(
   //       m: doobie.ConnectionIO[A]
   //   )(using ev: MonadCancel[IO, Throwable]): IO[A] = transactor.trans(m)
-  val doobieTansactable = new Transactable[doobie.ConnectionIO] {
-      def transact[A](transactor: Transactor[doobie.ConnectionIO, IO])(m: doobie.ConnectionIO[A])(using ev: MonadCancel[IO, Throwable]): IO[A]
-        = transactor.trans.apply(m)
-  }
-
-    
+  val doobieTansactable = new Transactable[doobie.ConnectionIO]:
+    def transact[A](transactor: Transactor[doobie.ConnectionIO, IO])(
+        m: doobie.ConnectionIO[A]
+    )(using ev: MonadCancel[IO, Throwable]): IO[A] = transactor.trans.apply(m)

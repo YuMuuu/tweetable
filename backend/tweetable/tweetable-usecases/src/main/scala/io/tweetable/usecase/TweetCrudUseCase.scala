@@ -23,12 +23,13 @@ import cats.syntax.OptionOps
 import cats.data.OptionT
 
 trait TweetCrudUseCase extends Aggregate[TweetId, Tweet]:
-  def create(tweet: Tweet): IO[Unit]
+  def create(tweet: Tweet): IO[Tweet]
 
   def findById(tweetId: TweetId): IO[Option[Tweet]]
 
   //  def update(tweet: Tweet): IO[Tweet]
   //tweetは更新する事が無いので一旦コメントアウト、likeがtweet集約に含まれるなら更新することもあるかも？
+
   def delete(tweetId: TweetId): IO[Unit]
 
 class TweetCrudUseCaseImpl(
@@ -39,10 +40,10 @@ class TweetCrudUseCaseImpl(
     implicit ev1: MonadCancel[ConnectionIO, Throwable],
     ev2: Transactable[ConnectionIO]
 ) extends TweetCrudUseCase:
-  override def create(tweet: Tweet): IO[Unit] =
+  override def create(tweet: Tweet): IO[Tweet] =
     val cio =
       for
-        _ <- tweetRepository.store(tweet)
+        storedTweet <- tweetRepository.store(tweet)
         notify = tweet.tweetType match
           // ReTweetだったらNotifyRepositoryにstoreする
           case TweetType.ReTweet =>
@@ -64,10 +65,13 @@ class TweetCrudUseCaseImpl(
           //memo: ConnectionIO.unit にしたいがどこにimplicitが定義されてるのかよく分からなかった。
           case _ => Applicative[ConnectionIO].unit
         _ <- notify
-      yield ()
+      yield storedTweet
 
-    for _ <- transactor.use(xa => Transactable[ConnectionIO].transact(xa)(cio))
-    yield ()
+    for
+      storedTweet <- transactor.use(xa =>
+        Transactable[ConnectionIO].transact(xa)(cio)
+      )
+    yield storedTweet
 
   override def findById(tweetId: TweetId): IO[Option[Tweet]] =
     val cio =

@@ -10,4 +10,4 @@ class NotifyRepositoryImpl extends NotifyRepository[ConnectionIO]:
   override def findById(
       id: NotificationId
   ): ConnectionIO[Option[Notification]] = ???
-  override def store(entity: Notification): ConnectionIO[Unit] = ???
+  override def store(entity: Notification): ConnectionIO[Notification] = ???

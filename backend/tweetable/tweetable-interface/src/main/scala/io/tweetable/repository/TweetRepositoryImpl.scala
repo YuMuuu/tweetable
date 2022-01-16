@@ -15,13 +15,32 @@ import cats.free.Free
 
 class TweetRepositoryImpl extends TweetRepository[ConnectionIO]:
   override def findById(id: TweetId): ConnectionIO[Option[Tweet]] =
-    //db設計をしていないのでqueryは適当
-    sql"select id, text, user_id, tweet_Type, re_tweet_tweet_id, reply_tweet_tweet_id from tweets where id = ${id}"
+    sql"SELECT id, text, user_id, tweet_Type, re_tweet_tweet_id, reply_tweet_tweet_id FROM tweets WHERE id = ${id.value}"
       .query[TweetRow]
       .option
-      .map(_.flatMap(_.toTweet())) //memo: queryのresultがnoneの時とrowからentityに変換が失敗した時のnoneがflatしているので同じになっている。微妙かも
+      .map(
+        _.flatMap(_.toTweet())
+      ) //memo: queryのresultがnoneの時とrowからentityに変換が失敗した時のnoneがflatしているので同じになっている。微妙かも
 
-  override def store(entity: Tweet): ConnectionIO[Unit] = ???
+  override def store(entity: Tweet): ConnectionIO[Tweet] =
+    // (if entity.id != LongId.notAssigned then
+    //    sql"""INSERT INTO tweets (text, user_id, tweet_Type, re_tweet_tweet_id, reply_tweet_tweet_id) VALUES(${entity.text.value}, ${entity.userId.value}, ${entity.tweetType
+    //      .value()}, ${entity.reTweetTweetId.map(
+    //      _.value
+    //    )}, ${entity.replyTweetTweetId.map(_.value)})"""
+    //  else
+    //    sql"""UPDATE tweets SET id = ${entity.id.value} text = ${entity.text.value} user_id=${entity.userId.value} re_tweet_tweet_id=${entity.reTweetTweetId
+    //      .map(_.value)} reply_tweet_tweet_id=${entity.replyTweetTweetId.map(
+    //      _.value
+    //    )}"""
+    // ).update.run.map(_id => entity.copy(id = LongId(_id)))
+    // memo: Tweetは更新する事がないのでinsertのみの実装
+    sql"""INSERT INTO tweets (text, user_id, tweet_Type, re_tweet_tweet_id, reply_tweet_tweet_id) VALUES(${entity.text.value}, ${entity.userId.value}, ${entity.tweetType
+      .value()}, ${entity.reTweetTweetId.map(
+      _.value
+    )}, ${entity.replyTweetTweetId.map(_.value)})""".update.run.map(_id =>
+      entity.copy(id = LongId(_id))
+    )
 
   override def delete(id: TweetId): ConnectionIO[Unit] = ???
 
@@ -54,7 +73,6 @@ object TweetRepositoryHelper:
         reTweetTweetId = re_tweet_tweet_id.map(LongId(_)),
         replyTweetTweetId = reply_tweet_tweet_id.map(LongId(_))
       )
-      
 
   given Conversion[Tweet, TweetRow] with
     def apply(tweet: Tweet): TweetRow =
