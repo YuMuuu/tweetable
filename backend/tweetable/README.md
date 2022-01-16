@@ -21,12 +21,13 @@
 
  https://github.com/j5ik2o/scala-ddd-base
  このrepositoryのより厳格な抽象のみを提供するイメージ
-## scala3
-`ddd-util`ではscala3での機能を利用している
+# scala3
+`ddd-util`、またサンプルアプリではscala3での機能を利用している
 - macro
 - typed lambda
 - 新しいimplicit
 - inline base syntax
+- scala3用のscalafmtの設定
 など 
 
 # DDDをモデリングしたライブラリを利用してサンプルアプリを作る（WIP）
