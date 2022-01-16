@@ -11,14 +11,15 @@ import io.tweetable.entities.entity.Tweet
 import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 import scala.language.implicitConversions
+import cats.free.Free
 
 class TweetRepositoryImpl extends TweetRepository[ConnectionIO]:
   override def findById(id: TweetId): ConnectionIO[Option[Tweet]] =
     //db設計をしていないのでqueryは適当
-    sql"select id, text, userId from tweet where id = ${id}"
+    sql"select id, text, user_id, tweet_Type, re_tweet_tweet_id, reply_tweet_tweet_id from tweets where id = ${id}"
       .query[TweetRow]
-      .unique
-      .map(_.toTweet())
+      .option
+      .map(_.flatMap(_.toTweet())) //memo: queryのresultがnoneの時とrowからentityに変換が失敗した時のnoneがflatしているので同じになっている。微妙かも
 
   override def store(entity: Tweet): ConnectionIO[Unit] = ???
 
@@ -26,12 +27,12 @@ class TweetRepositoryImpl extends TweetRepository[ConnectionIO]:
 
 object TweetRepositoryHelper:
   case class TweetRow(
-      id: Long,
+      id: Int,
       text: String,
-      userId: Long,
-      tweetType: String,
-      reTweetTweetId: Option[Long],
-      replyTweetTweetId: Option[Long]
+      user_id: Int,
+      tweet_type: String,
+      re_tweet_tweet_id: Option[Int],
+      reply_tweet_tweet_id: Option[Int]
   ):
     def toTweet(): Option[Tweet] =
       import scala.language.implicitConversions
@@ -40,7 +41,7 @@ object TweetRepositoryHelper:
 
       //memo: Conversionで暗黙の型変換をする時に変換後の型を明示しないとコンパイルできない
       val string140: Option[String140] = text
-      val _tweetType: Option[TweetType] = tweetType
+      val _tweetType: Option[TweetType] = tweet_type
 
       for
         s <- string140
@@ -48,19 +49,20 @@ object TweetRepositoryHelper:
       yield Tweet(
         id = LongId(id),
         text = s,
-        userId = LongId(userId),
+        userId = LongId(user_id),
         tweetType = tt,
-        reTweetTweetId = reTweetTweetId.map(LongId(_)),
-        replyTweetTweetId = replyTweetTweetId.map(LongId(_))
+        reTweetTweetId = re_tweet_tweet_id.map(LongId(_)),
+        replyTweetTweetId = reply_tweet_tweet_id.map(LongId(_))
       )
+      
 
   given Conversion[Tweet, TweetRow] with
     def apply(tweet: Tweet): TweetRow =
       TweetRow(
-        tweet.id.value,
+        tweet.id.value.toInt,
         tweet.text.value,
-        tweet.userId.value,
+        tweet.userId.value.toInt,
         tweet.tweetType,
-        tweet.reTweetTweetId.map(_.value),
-        tweet.replyTweetTweetId.map(_.value)
+        tweet.reTweetTweetId.map(_.value.toInt),
+        tweet.replyTweetTweetId.map(_.value.toInt)
       )

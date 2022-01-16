@@ -17,7 +17,8 @@ lazy val commonSettings = Seq(
     "org.typelevel" %% "cats-effect" % "3.1.1",
     "org.tpolecat" %% "doobie-core" % "1.0.0-M5",
     "org.tpolecat" %% "doobie-hikari" % "1.0.0-M5",
-    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5"
+    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5",
+    "org.scalatest" %% "scalatest" % "3.2.10" % Test
   )
 )
 
