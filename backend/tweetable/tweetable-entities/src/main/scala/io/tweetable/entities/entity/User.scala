@@ -12,5 +12,6 @@ object User:
 case class User(
     id: UserId,
     name: String,
-    followeeList: FolloweeList
+    follow: Follow,
+    account: Account
 ) extends AggregateRootEntity[UserId]

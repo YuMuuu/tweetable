@@ -12,6 +12,8 @@ import io.tweetable.entities.entity.User
 import io.tweetable.entities.entity.User.UserId
 import io.tweetable.repository.UserRepository
 
+/** User集約のcommand操作用のusecase
+  */
 trait UserCrudUseCase extends Aggregate[UserId, User]:
   def create(user: User): IO[Unit]
   def findById(userId: UserId): IO[Option[User]]
@@ -46,7 +48,7 @@ class UserCrudUseCaseImpl(
   override def update(user: User): IO[User] =
     // ドメインサービスでupdate可能なuserEntityを作ったとする
     val cio =
-      for user <- userRepository.update(user)
+      for user <- userRepository.store(user)
       yield user
     for
       user <- transactor.use(xa => Transactable[ConnectionIO].transact(xa)(cio))

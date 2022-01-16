@@ -1,1 +1,7 @@
 mongo_db/
+
+
+/**/.bloop/
+/**/.devcontainer/
+/**/.metals/
+/**/.vscode/
