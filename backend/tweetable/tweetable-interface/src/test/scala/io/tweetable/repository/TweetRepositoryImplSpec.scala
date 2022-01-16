@@ -85,8 +85,7 @@ class TweetRepositoryImplSpec extends AsyncFlatSpec:
 
     result
       .unsafeToFuture()
-      .map(
-      ot =>
+      .map(ot =>
         assert(
           (
             ot.text,
@@ -96,11 +95,12 @@ class TweetRepositoryImplSpec extends AsyncFlatSpec:
             ot.replyTweetTweetId
           ) === (normalTweet.text, normalTweet.userId, normalTweet.tweetType, normalTweet.reTweetTweetId, normalTweet.replyTweetTweetId)
         )
-        assert(ot.id != LongId.notAssigned))
+        assert(ot.id != LongId.notAssigned)
+      )
 
   }
 
-    it should "リツイートを登録する" in {
+  it should "リツイートを登録する" in {
     val reTweet = Tweet(
       LongId.notAssigned,
       String140.unsafeString140("hello"),
@@ -121,8 +121,7 @@ class TweetRepositoryImplSpec extends AsyncFlatSpec:
 
     result
       .unsafeToFuture()
-      .map(
-      ot =>
+      .map(ot =>
         assert(
           (
             ot.text,
@@ -132,9 +131,10 @@ class TweetRepositoryImplSpec extends AsyncFlatSpec:
             ot.replyTweetTweetId
           ) === (reTweet.text, reTweet.userId, reTweet.tweetType, reTweet.reTweetTweetId, reTweet.replyTweetTweetId)
         )
-        assert(ot.id != LongId.notAssigned))
+        assert(ot.id != LongId.notAssigned)
+      )
 
     // "tweet.delete" should "ツイートを削除できる" in {
-    // }  
-    
+    // }
+
   }
