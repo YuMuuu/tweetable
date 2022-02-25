@@ -5,3 +5,4 @@ mongo_db/
 /**/.devcontainer/
 /**/.metals/
 /**/.vscode/
+target/

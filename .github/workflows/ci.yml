@@ -30,7 +30,7 @@ jobs:
             ~/.cache/coursier/v1
             ~/AppData/Local/Coursier/Cache/v1
             ~/Library/Caches/Coursier/v1
-          key: v1-${{ hashFiles('~/backend/tweetable/build.sbt') }}-${{ hashFiles('~/backend/tweetableproject/build.properties') }}
+          key: v2-${{ hashFiles('~/backend/tweetable/build.sbt') }}-${{ hashFiles('~/backend/tweetableproject/build.properties') }}
       - name: build
         run: |
             cd ./backend/tweetable 

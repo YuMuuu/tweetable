@@ -1,6 +1,7 @@
 package io.tweetable
 
 import doobie.ConnectionIO
+import doobie.implicits.*
 import doobie.implicits.toSqlInterpolator
 import io.tweetable.TweetRepositoryHelper.TweetRow
 import io.tweetable.ddd.core.LongId
@@ -12,6 +13,15 @@ import io.tweetable.entities.entity.Tweet.TweetId
 import io.tweetable.repository.TweetRepository
 import scala.language.implicitConversions
 import cats.free.Free
+import doobie.util.query.Query0
+
+import doobie.*
+import doobie.implicits.*
+import doobie.util.ExecutionContexts
+import cats.*
+import cats.data.*
+import cats.effect.*
+import cats.implicits.*
 
 class TweetRepositoryImpl extends TweetRepository[ConnectionIO]:
   override def findById(id: TweetId): ConnectionIO[Option[Tweet]] =

@@ -11,7 +11,6 @@ lazy val commonSettings = Seq(
   target := {
     baseDirectory.value / "target"
   },
-//  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.0" cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-core" % "2.6.1",
     "org.typelevel" %% "cats-effect" % "3.1.1",
@@ -69,32 +68,3 @@ lazy val evolutions = (project in file("evolutions"))
       "mysql" % "mysql-connector-java" % "8.0.26"
     )
   )
-
-//todo:  そのうち必要になりそうなlibrary 後で整理する
-
-//libraryDependencies += "org.typelevel" %% "cats-core" % "2.3.0"
-//libraryDependencies += "org.typelevel" %% "cats-effect" % "3.1.1"
-//
-//libraryDependencies += "org.http4s" %% "http4s-core" % "1.0-234-d1a2b53"
-//libraryDependencies += "org.http4s" %% "http4s-blaze-server" % "1.0-234-d1a2b53"
-//
-//val circeVersion = "0.14.1"
-//libraryDependencies ++= Seq(
-//  "io.circe" %% "circe-core",
-//  "io.circe" %% "circe-generic",
-//  "io.circe" %% "circe-parser"
-//).map(_ % circeVersion)
-//
-//libraryDependencies += "dev.profunktor" %% "redis4cats-streams" % "1.0.0-RC3"
-//
-//libraryDependencies ++= Seq(
-//  // Start with this one
-//  "org.tpolecat" %% "doobie-core"      % "0.12.1",
-//
-//  // And add any of these as needed
-//  "org.tpolecat" %% "doobie-hikari"    % "0.12.1",          // HikariCP transactor.
-//  "org.tpolecat" %% "doobie-postgres"  % "0.12.1",          // Postgres driver 42.2.19 + type mappings.
-//)
-//
-//libraryDependencies += "io.github.kirill5k" %% "mongo4cats-core" % "0.2.9"
-//libraryDependencies += "io.github.kirill5k" %% "mongo4cats-circe" % "0.2.9" // circe support
